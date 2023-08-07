@@ -36,7 +36,7 @@ public class UpdateController extends HttpServlet {
 		//SELECT * FROM NOTICE_TBL WHERE NOTICE_NO = ? 
 		Notice notice = service.selectOneByNo(noticeNo);
 		if(notice != null) {
-			//데이터가 있으면 modify.jsp로 이동 
+			//데이터가 있으면 modify.jsp로 이동 (원래 글 내용 가지고)
 			request.setAttribute("notice", notice);
 			request.getRequestDispatcher("/WEB-INF/views/notice/modify.jsp").forward(request, response);			
 		}else {
