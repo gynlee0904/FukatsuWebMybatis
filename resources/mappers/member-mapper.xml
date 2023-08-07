@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 쿼리문과 값세팅 -->
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="MemberMapper">  
+	<resultMap type ="com.kh.member.model.vo.Member" id="memberResultMap"> <!-- 리절트맵은 여러개 만들어질수 있기 때문에 아이디값으로 구분해줘야함 -->
+		<id     property="memberId"     column ="MEMBER_ID"/>
+		<result property="memberPw"     column="MEMBER_PW"/>
+		<result property="memberName"   column="MEMBER_NAME"/>
+		<result property="memberAge"    column="MEMBER_AGE"/>
+		<result property="memberGender" column="MEMBER_GENDER"/>
+		<result property="memberEmail"  column="MEMBER_EMAIL"/>
+		<result property="memberPhone"  column="MEMBER_PHONE"/>
+		<result property="memberAddr"   column="MEMBER_ADDRESS"/>
+		<result property="memberHobby"  column="MEMBER_HOBBY"/>
+		<result property="memberDate"   column="MEMBER_DATE"/>
+		<result property="updateDate"   column="UPDATE_DATE"/>
+		<result property="memberYn"     column="MEMBER_YN"/>
+	</resultMap>
+<!-- 	컬럼명이랑 필드명이 달라서 하는 작업 -->
+	
+	
+  <insert id="insertMember">  
+  <!-- 여러개의 인서트태그를 구별하기위해 아이디값 부여(메소드명과 일치시키면 좋음) -->
+  <!-- member가 넘어오기 때문에 parameterType="com.kh.member.model.vo.Member" 으로 알려줌, 생략 가능함  -->
+  	INSERT INTO MEMBER_TBL VALUES(#{memberId},#{memberPw},#{memberName},#{memberAge},#{memberGender},#{memberEmail},#{memberPhone},#{memberAddr},#{memberHobby},DEFAULT,DEFAULT,DEFAULT)
+  	<!--쿼리문에 넘기는 값은 #{vo의 필드에 있는 값}. 샵이 게터메소드를 가져옴(값세팅)  -->
+  </insert>
+  
+  <delete id="deleteMember">
+  	DELETE FROM MEMBER_TBL WHERE MEMBER_ID = #{memberId} 
+  </delete>
+  
+  <update id="updateMember">
+  	UPDATE MEMBER_TBL SET MEMBER_PW = #{memberPw}, MEMBER_EMAIL = #{memberEmail}, MEMBER_PHONE = #{memberPhone}, MEMBER_ADDRESS = #{memberAddr}, MEMBER_HOBBY = #{memberHobby} WHERE MEMBER_ID = #{memberId}
+  </update>
+  
+  <select id="selectCheckLogin" resultMap="memberResultMap">
+  <!-- resultType="com.kh.member.model.vo.Member"  후처리 자동으로 해줌. 사용조건: 멤버의 필드명과 디비의 컬럼명이 똑같으면 가능-->
+  <!-- 똑같지 않으면 얘랑 걔랑 연결해서 쓰고있다는걸 명시적으로 표기해야함 (위의 <resultMap type>)  -->
+<!--   위의 리절트맵타입과 연결시키기 위해 리절트맵의 아이디를 옆에 resultMap="memberResultMap" 라고 적어줌  -->
+  	SELECT * FROM MEMBER_TBL WHERE MEMBER_ID = #{memberId} AND MEMBER_PW = #{memberPw}
+  </select>
+  
+  <select id="selectOneById" resultMap="memberResultMap">
+  	SELECT * FROM MEMBER_TBL WHERE MEMBER_ID = #{memberId}  <!-- 값이 1개고 스트링이면 #{value}라고 쓸수도 있음  -->
+  </select>
+</mapper>

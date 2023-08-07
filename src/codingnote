@@ -1,0 +1,35 @@
+마이바티스 시작함. DAO가 가벼워짐.
+*왜 마이바티스를 써야 하는지? 
+1.자바 코드에는 자바만 있게 하자 (POJO)
+2.DAO에서 했던 절차들을 마이바티스가 해줌 
+
+*마이바티스 동작구조 
+1.mybatis-config.xml파일에 DB접속정보, 쿼리문 위치 정보를 저장한다
+2.SqlSessionTemplate를 이용해서 SqlSession을 생성 
+	-mybatid-cingig.xml파일을 읽는데 스트림이 사용됨 
+	-연결공장 노동자가 연결공장을 만들고 연결공장은 연결을 만들었음
+3.나머지는 원래 하던대로 하면됨 
+	-jsp만들고 
+	-controller만들고 service의 메소드 호출 
+	-service의 메소드는 연결 생성 후 DAO호출(dml의 경우 커밋/롤백 해줘야함) 후 세션 닫기 
+	-DAO의 메소드는 간결해짐 
+		-session을 통해 실행할 쿼리문에 따라 적절한 메소드를 호출하고
+		 mapper.xml에 있는 쿼리문을 호출하여 실행함 
+		 ex: int result - session.insert("MemberMapper.insertMember",member); return result;
+	-mapper.xml의 해당 쿼리문에 가서 #{필드명}으로 getter()메소드를 대신하여 값을 세팅함 
+	 ex: <insert id="insertNumber">INSERT INTO MEMBER_TBL VALUES(#{memberId},...)</insert>
+	 
+23/08/04
+구현했던 기능들 
+1. 회원가입 
+2. 회원탈퇴 
+3. 회원수정
+4. 로그인 
+5. 회원 상세 조회(마이페이지)
+================================완료
+*공지사항 만들어보기
+1. 공지사항 등록 
+2. 공지사항 목록 조회 (전체 조회) 
+3. 공지사항 상세 조회 
+4. 공지사항 삭제 
+5. 공지사항 수정 (페이지 이동 후 ㅜ정) 

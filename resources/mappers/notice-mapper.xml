@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="NoticeMapper">
+	<!-- 리절트맵은 셀렉트가 있어서 필요한것. 필드값과 컬럼명이 다를떄 써줘야함  -->
+	<resultMap type ="com.kh.notice.model.vo.Notice" id="noticeResultMap"> <!-- 리절트맵은 여러개 만들어질수 있기 때문에 아이디값으로 구분해줘야함 -->
+	<!-- type에는 NoticeVO의 경로를 적고 리절트맵태그는 여러개 있을 수 있으니 아ㅏ읻값으로 구분함  -->
+	<id     property="noticeNo"      column ="NOTICE_NO"/>
+	<result property="noticeSubject" column="NOTICE_SUBJECT"/>
+	<result property="noticeContent" column="NOTICE_CONTENT"/>
+	<result property="noticeWriter"  column="NOTICE_WRITER"/>
+	<result property="noticeDate"    column="NOTICE_DATE"/>
+	<result property="updateDate"    column="UPDATE_DATE"/>
+	<result property="viewCount"     column="VIEW_COUNT"/>
+	</resultMap>
+  <insert id="insertNotice">  
+<!--   mapper.xml에서 쿼리문안에 #{}을 이용해서 vo클래스의 필드값을 쓰면 getter메서드가 동작함 -->
+  	INSERT INTO NOTICE_TBL VALUES(SEQ_NOTICENO.NEXTVAL,#{noticeSubject},#{noticeContent},'admin',DEFAULT,DEFAULT,DEFAULT)
+  </insert>
+  
+  <select id="selectNoticeList" resultMap="noticeResultMap"> <!-- resultMap이름은 상단 resultMap의 아이디값 -->
+  	SELECT * FROM NOTICE_TBL ORDER BY NOTICE_NO DESC  
+  </select>
+  
+   <select id="selectOneByNo" resultMap="noticeResultMap">
+  	SELECT * FROM NOTICE_TBL WHERE NOTICE_NO=#{noticeNo}
+  </select>
+  
+  <delete id="deleteNoticeByNo">
+  	DELETE FROM NOTICE_TBL WHERE NOTICE_NO = #{noticeNo}
+  </delete>
+  
+  <update id="updateNotice">
+	  UPDATE NOTICE_TBL SET NOTICE_SUBJECT = #{noticeSubject} , NOTICE_CONTENT = #{noticeContent} WHERE NOTICE_NO =#{noticeNo}
+  </update>
+  
+</mapper>
+
+
+<!-- /notice/list.do를 입력하면 겟방식으로 서버요청 -> 서버는 두겟()으로 동작  -->
+
+<!-- select이기 때문에 mapper.xml 에서 resultToNotice에 해당하는 ResultMap을 작성해줘야함  -->
+
+<!-- <result><</result> 와 <result/>는 같은것(짧게쓴것) -->
