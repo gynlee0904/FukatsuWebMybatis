@@ -70,9 +70,9 @@ public class NoticeDAO {
 	}
 	
 	
-	public String generatePageNavi(int currentPage) {
+	public String generatePageNavi(SqlSession session, int currentPage) {
 		//전체게시물의 갯수 
-		int totalCount = 209;
+		int totalCount = getTotalCount(session);  //게시글이 늘어날때마다 네비 수 늘어나도록 메소드처리
 		int recordCountPerPage = 10;
 		int naviCountPerPage = 5;
 		int totalNaviCount;
@@ -104,11 +104,17 @@ public class NoticeDAO {
 			//result.append하면 문자열을 쭉 나열해줌 
 		}
 		if (endNavi != totalNaviCount) {
-			result.append("<a href='/notice/list.do?currentPage="+(endNavi-1)+"'>[이전]</a>");
+			result.append("<a href='/notice/list.do?currentPage="+(endNavi+1)+"'>[다음]</a>");
 		}
 		return result.toString();
 
 		
+	}
+
+
+	private int getTotalCount(SqlSession session) {
+		int totalCount = session.selectOne("NoticeMapper.getTotalCount");
+		return totalCount;
 	}
 
 

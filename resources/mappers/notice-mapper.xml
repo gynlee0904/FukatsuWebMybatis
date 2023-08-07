@@ -36,6 +36,13 @@
 	  UPDATE NOTICE_TBL SET NOTICE_SUBJECT = #{noticeSubject} , NOTICE_CONTENT = #{noticeContent} WHERE NOTICE_NO =#{noticeNo}
   </update>
   
+  <select id="getTotalCount" resultType="_int"> 
+	<!-- 컬럼 갯수가 한개이고 결과값이 숫자면 resultType="int"써줌 -->
+  	SELECT COUNT(*) FROM NOTICE_TBL 
+  </select>
+  
+  
+  
 </mapper>
 
 

@@ -77,8 +77,8 @@ public class NoticeService {
 	public PageData selectNoticeList(int currentPage) {
 		SqlSession session = SqlSessionTemplate.getSqlSession();
 		List<Notice>nList = nDao.selectNoticeList(session, currentPage);
-		String pageNavi = nDao.generatePageNavi(currentPage);
-		PageData pd = new PageData();
+		String pageNavi = nDao.generatePageNavi(session, currentPage);
+		PageData pd = new PageData(nList, pageNavi);
 		session.close();
 		return pd; 
 	}

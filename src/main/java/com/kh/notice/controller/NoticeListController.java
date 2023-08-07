@@ -51,6 +51,7 @@ public class NoticeListController extends HttpServlet {
 		if(!nList.isEmpty()) {
 			//성공시 list.jsp로 이동
 			request.setAttribute("nList", nList);
+			request.setAttribute("pageNavi", pageNavi);
 			request.getRequestDispatcher("/WEB-INF/views/notice/list.jsp").forward(request, response);
 		}else {
 			//실패시 메인으로 이동 
